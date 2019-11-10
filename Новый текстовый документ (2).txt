@@ -1,0 +1,3 @@
+SELECT goods.name
+    FROM goods LEFT JOIN categories ON goods.category_id = categories.id
+    WHERE categories.id IS NULL

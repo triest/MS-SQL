@@ -1,0 +1,3 @@
+SELECT * FROM dbo.visits
+SELECT dbo.visits.cost_with_discount as 'цена со скидкой', dbo.visits.visit_id as 'id', dbo.patients.fio as пациент,x1.fio as 'к врачу', x2.fio as 'по рекомендации',dbo.visits.dd as 'дата',dbo.visits.h as 'часы',dbo.visits.mins as 'минуты' from dbo.visits left join dbo.patients on dbo.visits.patient_id=dbo.patients.patient_id left join dbo.doctors on dbo.doctors.doctor_id=dbo.visits.doctor_id   join dbo.doctors AS doctors2 on doctors2.doctor_id=dbo.visits.doctor_id2 
+left OUTER join dbo.doctors AS x1 ON (dbo.visits.doctor_id=x1.doctor_id) left OUTER join dbo.doctors AS x2 ON (dbo.visits.doctor_id2=x2.doctor_id) WHERE dbo.visits.doctor_id2 IS NOT NULL ORDER BY x2.fio 

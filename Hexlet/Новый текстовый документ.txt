@@ -1,0 +1,45 @@
+Высокооплачиваемые работники 
+
+Таблица employees содержит всех работников включая их менеджеров. Каждый работник имеет id и колонку для id менеджера manager_id.
+
++----+-------+--------+------------+
+| id | name  | salary | manager_id |
++----+-------+--------+------------+
+| 1  | Joe   | 70000  | 3          |
+| 2  | Henry | 80000  | 4          |
+| 3  | Sam   | 60000  | NULL       |
+| 4  | Max   | 90000  | NULL       |
++----+-------+--------+------------+
+solution.sql
+Напишите SQL запрос который найдет имена всех работников, которые получают больше чем их менеджеры.
+Запишите запрос в файл solution.sql;
+CREATE TABLE employees (
+  id integer,
+  name varchar(10),
+  salary integer,
+  manager_id integer
+);
+
+INSERT INTO employees (id, name, salary, manager_id) VALUES
+(1, 'Joe', 70000, 3),
+(2, 'Henry', 80000, 4),
+(3, 'Sam', 60000, NULL),
+(4, 'Max', 90000, NULL);
+
+
+
+Select rab.name From employees e Inner Join employees rab On e.id=rab.manager_id WHERE e.salary<rab.salary;
+
+
+2.Таблица weathers содержит записи значений температур в разные дни. Каждая запись имеет id, дату date и значение температуры temperature.
+
+| id | date       | temperature |
+|----|------------|-------------|
+| 1  | 2016-01-01 | 10          |
+| 2  | 2016-01-02 | 25          |
+| 3  | 2016-01-03 | 20          |
+| 4  | 2016-01-04 | 30          |
+solution.sql
+Напишите SQL запрос для выбора id всех записей, температура в которых была выше, чем в предыдущий день (чем вчера).
+
+Select w1.id From weathers w1 Inner Join weathers w2 On w1.id = w2.id+1 Where w1.temperature > w2.temperature;

@@ -1,0 +1,22 @@
+SELECT * FROM dbo.visits
+
+выборка новой таблицы:
+SELECT dbo.visits.cost_with_discount as 'price_with_discount', dbo.visits.visit_id as 'id', dbo.patients.fio as 'patient',x1.fio as 'to_docktor', x2.fio as 'by_recomended',dbo.visits.dd as 'date',dbo.visits.h as 'hour',dbo.visits.mins as 'minuts' 
+INTO newtable 
+from dbo.visits left join dbo.patients on dbo.visits.patient_id=dbo.patients.patient_id left join dbo.doctors on dbo.doctors.doctor_id=dbo.visits.doctor_id   join dbo.doctors AS doctors2 on doctors2.doctor_id=dbo.visits.doctor_id2 
+left OUTER join dbo.doctors AS x1 ON (dbo.visits.doctor_id=x1.doctor_id) left OUTER join dbo.doctors AS x2 ON (dbo.visits.doctor_id2=x2.doctor_id) WHERE dbo.visits.doctor_id2 IS NOT NULL ORDER BY x2.fio; 
+
+Выборка по врачам, рекомендовавшим
+SELECT SUM(dbo.newtable.discount) as 'paid',dbo.newtable.by_recomended FROM dbo.newtable GROUP BY dbo.newtable.by_recomended;
+
+
+SELECT * FROM dbo.newtable;
+SELECT SUM(dbo.newtable.discount) as 'paid',dbo.newtable.by_recomended,dbo.newtable.to_docktor,dbo.newtable.patient FROM dbo.newtable GROUP BY dbo.newtable.by_recomended,dbo.newtable.to_docktor,dbo.newtable.patient;
+
+
+SELECT * FROM dbo.newtable;
+SELECT SUM(dbo.newtable.discount) as 'paid',dbo.newtable.by_recomended,dbo.newtable.to_docktor,dbo.newtable.patient,dbo.newtable.date,dbo.newtable.hour,dbo.newtable.minuts FROM  dbo.newtable 
+WHERE dbo.newtable.by_recomended IN (select newtable.by_recomended from dbo.newtable group by by_recomended having count(*)>1)
+GROUP BY dbo.newtable.by_recomended,dbo.newtable.to_docktor,dbo.newtable.patient,dbo.newtable.date,dbo.newtable.hour,dbo.newtable.minuts
+
+
